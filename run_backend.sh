@@ -1,5 +1,5 @@
 #!/bin/bash
 
 echo "Starting backend"
-./backend/venv/bin/python ./backend/main.py
+./backend/venv/bin/python -B ./backend/main.py
 

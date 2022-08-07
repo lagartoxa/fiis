@@ -1,10 +1,13 @@
 #!/bin/bash
 
-ROOT_DIR=$(pwd)
+SCRIPTS_DIR="$(pwd)/scripts"
 
 echo "Installing venv"
-$ROOT_DIR/scripts/install_venv.sh
+$SCRIPTS_DIR/install_venv.sh
 
 echo "Installing requirements"
-$ROOT_DIR/backend/venv/bin/pip install -r versioning/requirements.txt
+$SCRIPTS_DIR/install_requirements.sh
+
+echo "Upgrading database to the last migration"
+$SCRIPTS_DIR/alembic.sh upgrade head
 
