@@ -3,21 +3,22 @@
 ##############################################################################
 # @Author: Ildomar Carvalho
 # @Email:  ildomarcarvalho@gmail.com
-# @Date:   2022-08-06 22:46:42
+# @Date:   2022-08-07 15:46:42
 ##############################################################################
 
-from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import (
+    List,
+    Union
+)
 
-from backend.app.routers import fii_type
+from .api import APISchema
 
 
-app = FastAPI()
-app.include_router(fii_type.router)
+class FIITypeSchema(BaseModel):
+    name: str
 
 
-@app.get('/')
-async def root():
-    return {
-        "fon": "eoq",
-    }
+class FIITypesResponseSchema(APISchema):
+    fii_types: List[FIITypeSchema]
 

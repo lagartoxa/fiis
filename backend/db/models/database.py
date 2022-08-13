@@ -9,8 +9,7 @@
 from sqlalchemy import (
     BigInteger,
     Column,
-    create_engine,
-    Integer
+    create_engine
 )
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -41,7 +40,7 @@ class BaseTable(Base):
     __abstract__ = True
 
     pk = Column(BigInteger, primary_key=True, index=True)
-    rm_timestamp = Column(Integer, nullable=False, server_default='0')
+    rm_timestamp = Column(BigInteger, nullable=False, server_default='0')
 
     @hybrid_property
     def deleted(self):
