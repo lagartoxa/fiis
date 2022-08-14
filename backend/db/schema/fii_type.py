@@ -9,13 +9,24 @@
 from pydantic import BaseModel
 from typing import (
     List,
+    Optional,
     Union
 )
 
 from .api import APISchema
 
 
+class FIITypeCreateSchema(BaseModel):
+    name: str
+
+
+class FIITypeDeleteSchema(BaseModel):
+    pk: Optional[int]
+    name: Optional[str]
+
+
 class FIITypeSchema(BaseModel):
+    pk: int
     name: str
 
 
