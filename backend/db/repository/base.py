@@ -39,7 +39,7 @@ class BaseRepository():
         query = self.db_session.query(self.model)
         if pk:
             query = query.filter(self.model.pk == pk)
-        if with_deleted:
+        if not with_deleted:
             query = query.filter(self.model.deleted == false())
         if order_by:
             query = query.order_by(order_by)
@@ -47,7 +47,7 @@ class BaseRepository():
         return query
 
     def all(self):
-        return self.db_session.query(self.model).all()
+        return self.create_query().all()
 
     def one_or_none(self, **kwargs):
         return self.create_query(**kwargs).one_or_none()
