@@ -23,12 +23,11 @@ from backend.db.schema.api import APISchema
 from backend.db.schema.fii_type import (
     FIITypeCreateSchema,
     FIITypeDeleteSchema,
-    FIITypeSchema,
-    FIITypesResponseSchema,
+    FIITypesResponseSchema
 )
 
 
-tags = ["fii", ]
+tags = ["FII Type", ]
 router = APIRouter(tags=tags)
 
 
@@ -57,7 +56,7 @@ async def create_fii_type(
         if repo.one_or_none(name=name):
             raise HTTPException(
                 status_code=409,
-                detail=f"Fii type '{name}' already exists."
+                detail=f"FII type '{name}' already exists."
             )
 
         fii_type = FIIType(name=name)
@@ -91,7 +90,7 @@ async def delete_fii_type(
     if not pk and not name:
         raise HTTPException(
             status_code=400,
-            detail="You must provide either the name or the pk of the Fii type."
+            detail="You must provide either the name or the pk of the FII type."
         )
 
     with FIITypeRepository(db_session) as repo:
@@ -106,7 +105,7 @@ async def delete_fii_type(
         if not fii_type:
             raise HTTPException(
                 status_code=404,
-                detail=f"Fii type {get_not_found_message(pk, name)} not found."
+                detail=f"FII type {get_not_found_message(pk, name)} not found."
             )
 
         fii_type.deleted = True
@@ -114,6 +113,6 @@ async def delete_fii_type(
 
     return {
         "success": True,
-        "reason": f"Fii type '{fii_type.name}' deleted successfully.",
+        "reason": f"FII type '{fii_type.name}' deleted successfully.",
     }
 

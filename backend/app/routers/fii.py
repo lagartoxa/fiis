@@ -24,12 +24,11 @@ from backend.db.schema.api import APISchema
 from backend.db.schema.fii import (
     FIICreateSchema,
     FIIDeleteSchema,
-    FIISchema,
     FIIsResponseSchema
 )
 
 
-tags = ["fii", ]
+tags = ["FII", ]
 router = APIRouter(tags=tags)
 
 
@@ -125,7 +124,7 @@ async def delete_fii(
         if not fii:
             raise HTTPException(
                 status_code=404,
-                detail=f"Fii not found."
+                detail=f"FII not found."
             )
 
         fii.deleted = True
@@ -133,6 +132,6 @@ async def delete_fii(
 
     return {
         "success": True,
-        "reason": f"Fii '{fii.name}' deleted successfully.",
+        "reason": f"FII '{fii.name}' deleted successfully.",
     }
 
