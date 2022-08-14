@@ -19,7 +19,6 @@ from .api import APISchema
 class FIICreateSchema(BaseModel):
     name: str
     code: str
-    value: float
     fii_type: str
 
 
@@ -33,7 +32,6 @@ class FIISchema(BaseModel):
     pk: int
     name: str
     code: str
-    value: float
     fii_type: str
 
 

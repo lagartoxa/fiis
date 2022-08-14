@@ -41,7 +41,6 @@ async def get_all_fiis(db_session: Session = Depends(db_session)):
                 "pk": fii.pk,
                 "name": fii.name,
                 "code": fii.code,
-                "value": fii.value,
                 "fii_type": fii.fii_type.name,
             })
 
@@ -83,7 +82,6 @@ async def create_fii(
         fii = FII(
             name=request.name,
             code=request.code,
-            value=request.value,
             fii_type=fii_type
         )
 

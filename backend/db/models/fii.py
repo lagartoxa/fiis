@@ -32,8 +32,10 @@ class FII(BaseTable):
     )
 
     name = Column(Unicode(100), nullable=False)
-    code = Column(Unicode(10), nullable=False)
-    value = Column(Float, nullable=False)
+    code = Column(Unicode(6), nullable=False)
+
+    # FII code used at the alphavantage.co APIs
+    code_international = Column(Unicode(10), nullable=False)
 
     fii_type = relationship(FIIType)
 
@@ -45,6 +47,10 @@ class FII(BaseTable):
         UniqueConstraint(
             code, "rm_timestamp",
             name="fii_code_un"
+        ),
+        UniqueConstraint(
+            code_international, "rm_timestamp",
+            name="fii_code_international_un"
         ),
     )
 
