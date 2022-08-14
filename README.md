@@ -1,12 +1,14 @@
 # FIIs
 Personal project to control my FIIs.
 
-This project has APIs to create, list and delete:
+This project has APIs to create, list and delete (sorry, no update APIs yet):
  - FIIs
  - FII types
  - FII daily quotations
  - FII monthly dividends
  - Register FII purchases
+
+You can see them at http://localhost:8000/docs
 
 
 ## To be Developed
