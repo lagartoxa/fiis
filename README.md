@@ -56,7 +56,7 @@ can be used with the alembic.sh script
 ### Creating a New Migration
 
 ```
-./scripts/alembic.sh revision --autogenerate -m "XXX - Migration's
+$ ./scripts/alembic.sh revision --autogenerate -m "XXX - Migration's
 description, where XXX is the number of the version with 3 numbers"
 ```
 
@@ -64,7 +64,7 @@ description, where XXX is the number of the version with 3 numbers"
 ### Upgrading To The Last Migration
 
 ```
-./scripts/alembic.sh upgrade head
+$ ./scripts/alembic.sh upgrade head
 ```
 
 
