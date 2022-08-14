@@ -1,21 +1,18 @@
 # FIIs
 Personal project to control my FIIs.
 
-For now this project has 10 APIs:
- - Create FII types (CRI, shopping, etc)
- - Delete FII types
- - List FII types
- - Create FIIs
- - Delete FIIs
- - List FIIs
- - Create FII dividends
- - Delete FII dividends
- - List all dividends
- - List dividends by FII
+This project has APIs to create, list and delete:
+ - FIIs
+ - FII types
+ - FII daily quotations
+ - FII monthly dividends
+ - Register FII purchases
 
 
-## To be developed
+## To be Developed
  - Web scrapping feature to get the monthly dividend value automatically
+ - Cycles to automatically get daily quotations
+ - APIs to update the data in the database
  - Automated tests
 
 
@@ -26,6 +23,9 @@ by running:
 ```
 $ run_backend.sh
 ```
+
+You can see the available APIs by openning http://localhost:8000/docs
+on your browser
 
 # Installation
 
