@@ -10,12 +10,14 @@ from fastapi import FastAPI
 
 from backend.app.routers import (
     fii,
+    fii_dividend,
     fii_type
 )
 
 
 app = FastAPI()
 app.include_router(fii.router)
+app.include_router(fii_dividend.router)
 app.include_router(fii_type.router)
 
 

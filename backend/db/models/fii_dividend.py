@@ -37,7 +37,7 @@ class FIIDividend(BaseTable):
     dividend_yield = Column(Float, nullable=False)
     value = Column(Float, nullable=False)
 
-    fii = relationship(FII, back_populates="dividends")
+    fii = relationship(FII)
 
     __table_args__ = (
         UniqueConstraint(
