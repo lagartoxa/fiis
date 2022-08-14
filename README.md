@@ -36,7 +36,10 @@ postgres=# GRANT ALL PRIVILEGES ON DATABASE fiis TO project;
 
 
 ## Install And Configure The Backend
-./install.sh
+
+```
+$ ./install.sh
+```
 
 Note: The install.sh script and every script from the scripts
 directory must be executed from the project's directory.
@@ -51,12 +54,18 @@ can be used with the alembic.sh script
 
 
 ### Creating a New Migration
+
+```
 ./scripts/alembic.sh revision --autogenerate -m "XXX - Migration's
 description, where XXX is the number of the version with 3 numbers"
+```
 
 
 ### Upgrading To The Last Migration
+
+```
 ./scripts/alembic.sh upgrade head
+```
 
 
 # Developing
