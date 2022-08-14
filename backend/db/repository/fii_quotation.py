@@ -3,28 +3,28 @@
 ##############################################################################
 # @Author: Ildomar Carvalho
 # @Email:  ildomarcarvalho@gmail.com
-# @Date:   2022-08-13 15:40:42
+# @Date:   2022-08-14 13:39:42
 ##############################################################################
+
 
 from sqlalchemy import false
 
 from backend.db.models import (
     FII,
-    FIIDividend
+    FIIQuotation
 )
 from backend.db.repository.base import BaseRepository
 
 
-class FIIDividendRepository(BaseRepository):
+class FIIQuotationRepository(BaseRepository):
     def __init__(self, db_session):
-        BaseRepository.__init__(self, db_session, FIIDividend)
+        BaseRepository.__init__(self, db_session, FIIQuotation)
 
     def create_query(self, **kwargs):
         query = BaseRepository.create_query(self, **kwargs)
 
         fii_code = kwargs.get("fii_code", None)
-        base_date = kwargs.get("base_date", None)
-        payment_date = kwargs.get("payment_date", None)
+        quotation_date = kwargs.get("quotation_date", None)
 
         if fii_code:
             query = query.join(
@@ -33,13 +33,9 @@ class FIIDividendRepository(BaseRepository):
             .filter(FII.deleted == false())\
             .filter(FII.code == fii_code)
 
-        if base_date:
+        if quotation_date:
             query = query.filter(
-                self.model.base_date == base_date)
-
-        if payment_date:
-            query = query.filter(
-                self.model.payment_date == payment_date)
+                self.model.quotation_date == quotation_date)
 
         return query
 

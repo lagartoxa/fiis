@@ -9,8 +9,7 @@
 from pydantic import BaseModel
 from typing import (
     List,
-    Optional,
-    Union
+    Optional
 )
 
 from .api import APISchema
@@ -19,6 +18,7 @@ from .api import APISchema
 class FIICreateSchema(BaseModel):
     name: str
     code: str
+    code_international: str
     fii_type: str
 
 
@@ -26,12 +26,14 @@ class FIIDeleteSchema(BaseModel):
     pk: Optional[int]
     name: Optional[str]
     code: Optional[str]
+    code_international: Optional[str]
 
 
 class FIISchema(BaseModel):
     pk: int
     name: str
     code: str
+    code_international: str
     fii_type: str
 
 

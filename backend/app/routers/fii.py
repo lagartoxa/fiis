@@ -41,6 +41,7 @@ async def get_all_fiis(db_session: Session = Depends(db_session)):
                 "pk": fii.pk,
                 "name": fii.name,
                 "code": fii.code,
+                "code_international": fii.code_international,
                 "fii_type": fii.fii_type.name,
             })
 
@@ -55,6 +56,7 @@ async def create_fii(
     request: FIICreateSchema, db_session: Session = Depends(db_session)):
     name = request.name
     code = request.code
+    code_international = request.code_international
 
     with FIITypeRepository(db_session) as repo:
         fii_type_name = request.fii_type
@@ -79,9 +81,16 @@ async def create_fii(
                 detail=f"FII with code = '{code}' already exists."
             )
 
+        if repo.one_or_none(code_international=code_international):
+            raise HTTPException(
+                status_code=409,
+                detail=f"FII with international code = '{code_international}' already exists."
+            )
+
         fii = FII(
-            name=request.name,
-            code=request.code,
+            name=name,
+            code=code,
+            code_international=code_international,
             fii_type=fii_type
         )
 
@@ -101,11 +110,12 @@ async def delete_fii(
     pk = request.pk
     name = request.name
     code = request.code
+    code_international = request.code_international
 
-    if not pk and not name and not code:
+    if not pk and not name and not code and not code_international:
         raise HTTPException(
             status_code=400,
-            detail="You must provide the pk, name and/or code."
+            detail="You must provide the pk, name, code and/or the international code."
         )
 
     with FIIRepository(db_session) as repo:
@@ -116,6 +126,8 @@ async def delete_fii(
             filters["name"] = name
         if code:
             filters["code"] = code
+        if code_international:
+            filters["code_international"] = code_international
 
         fii = repo.one_or_none(**filters)
 
@@ -130,6 +142,6 @@ async def delete_fii(
 
     return {
         "success": True,
-        "reason": f"FII '{fii.name}' deleted successfully.",
+        "reason": f"FII '{fii.code}' deleted successfully.",
     }
 

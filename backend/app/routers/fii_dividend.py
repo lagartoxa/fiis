@@ -63,6 +63,15 @@ async def get_all_fii_dividends(db_session: Session = Depends(db_session)):
 async def get_all_dividends_from_fii(
     fii_code: str, db_session: Session = Depends(db_session)):
 
+    with FIIRepository(db_session) as repo:
+        fii = repo.one_or_none(code=fii_code)
+
+        if not fii:
+            raise HTTPException(
+                status_code=404,
+                detail=f"FII '{fii_code}' not found."
+            )
+
     with FIIDividendRepository(db_session) as repo:
         fii_dividends = []
         for fii_dividend in repo.all(fii_code=fii_code):
@@ -139,7 +148,7 @@ async def create_fii_dividend(
 
 @router.delete(
     "/fii_dividend/delete", tags=tags, response_model=APISchema)
-async def delete_fii(
+async def delete_fii_dividend(
     request: FIIDividendDeleteSchema, db_session: Session = Depends(db_session)):
 
     pk = request.pk

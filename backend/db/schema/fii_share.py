@@ -3,7 +3,7 @@
 ##############################################################################
 # @Author: Ildomar Carvalho
 # @Email:  ildomarcarvalho@gmail.com
-# @Date:   2022-08-14 01:57:42
+# @Date:   2022-08-14 13:38:42
 ##############################################################################
 
 from datetime import date
@@ -14,29 +14,25 @@ from typing import List
 from .api import APISchema
 
 
-class FIIDividendCreateSchema(BaseModel):
+class FIIShareCreateSchema(BaseModel):
     fii_code: str
-    base_date: date
-    payment_date: date
-    base_quotation: float
-    dividend_yield: float
+    purchase_date: date
     value: float
+    quantity: int
 
 
-class FIIDividendDeleteSchema(BaseModel):
+class FIIShareDeleteSchema(BaseModel):
     pk: int
 
 
-class FIIDividendSchema(BaseModel):
+class FIIShareSchema(BaseModel):
     pk: int
     fii_code: str
-    base_date: date
-    payment_date: date
-    base_quotation: float
-    dividend_yield: float
+    purchase_date: date
     value: float
+    quantity: int
 
 
-class FIIDividendsResponseSchema(APISchema):
-    fii_dividends: List[FIIDividendSchema]
+class FIISharesResponseSchema(APISchema):
+    fii_shares: List[FIIShareSchema]
 

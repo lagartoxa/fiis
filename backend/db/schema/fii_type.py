@@ -9,8 +9,7 @@
 from pydantic import BaseModel
 from typing import (
     List,
-    Optional,
-    Union
+    Optional
 )
 
 from .api import APISchema

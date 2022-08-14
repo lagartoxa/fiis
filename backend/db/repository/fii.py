@@ -19,12 +19,16 @@ class FIIRepository(BaseRepository):
 
         name = kwargs.get("name", None)
         code = kwargs.get("code", None)
+        code_international = kwargs.get("code_international", None)
 
         if name:
             query = query.filter(self.model.name == name)
 
         if code:
             query = query.filter(self.model.code == code)
+
+        if code_international:
+            query = query.filter(self.model.code_international == code_international)
 
         return query
 
