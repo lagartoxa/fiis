@@ -11,6 +11,8 @@ from sqlalchemy import (
     Column,
     create_engine
 )
+from sqlalchemy.ext.hybrid import Comparator
+from sqlalchemy.sql.elements import True_
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -36,6 +38,15 @@ def db_session():
         db.close()
 
 
+class DeletedComparator(Comparator):
+    def __eq__(self, other):
+        right = True if isinstance(other, True_) else False
+
+        if right:
+            return self.__clause_element__() != 0
+        return self.__clause_element__() == 0
+
+
 class BaseTable(Base):
     __abstract__ = True
 
@@ -56,5 +67,5 @@ class BaseTable(Base):
 
     @deleted.comparator
     def deleted(cls):
-        return BaseTableDeletedComparator(cls.rm_timestamp)
+        return DeletedComparator(cls.rm_timestamp)
 
