@@ -17,6 +17,7 @@ For now this project has 10 APIs:
 ## To be developed
  - APIs to register the FIIs I bought
  - Web scrapping feature to get the monthly dividend value automatically
+ - Automated tests
 
 
 # Installation
