@@ -46,8 +46,8 @@ class BaseRepository():
 
         return query
 
-    def all(self):
-        return self.create_query().all()
+    def all(self, **kwargs):
+        return self.create_query(**kwargs).all()
 
     def one_or_none(self, **kwargs):
         return self.create_query(**kwargs).one_or_none()

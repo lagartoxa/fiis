@@ -21,10 +21,10 @@ class FIIRepository(BaseRepository):
         code = kwargs.get("code", None)
 
         if name:
-            query = query.filter(FII.name == name)
+            query = query.filter(self.model.name == name)
 
         if code:
-            query = query.filter(FII.code == code)
+            query = query.filter(self.model.code == code)
 
         return query
 
