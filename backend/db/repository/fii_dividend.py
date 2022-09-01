@@ -6,6 +6,7 @@
 # @Date:   2022-08-13 15:40:42
 ##############################################################################
 
+import calendar
 from sqlalchemy import false
 
 from backend.db.models import (
@@ -42,4 +43,21 @@ class FIIDividendRepository(BaseRepository):
                 self.model.payment_date == payment_date)
 
         return query
+
+    def get_month_dividend(self, fii_code: str, month: int, year: int):
+        last_day_of_month = calendar.monthrange(year, month)[1]
+        month = str(month) if month > 9 else f"0{str(month)}"
+
+        dividends = self.create_query(fii_code=fii_code)\
+            .filter(
+                FIIDividend.payment_date > f"{month}/01/{year}")\
+            .filter(
+                FIIDividend.payment_date < f"{month}/{last_day_of_month}/{year}"
+            ).all()
+
+        total = 0
+        for dividend in dividends:
+            total += dividend.value
+
+        return total
 
