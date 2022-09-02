@@ -1,4 +1,4 @@
 #!/bin/bash
 
-python3.8 -m virtualenv $(pwd)/backend/venv
+python3 -m venv $(pwd)/backend/venv
 
