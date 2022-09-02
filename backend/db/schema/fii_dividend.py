@@ -23,6 +23,10 @@ class FIIDividendCreateSchema(BaseModel):
     value: float
 
 
+class FIIDividendCreateManySchema(BaseModel):
+    dividends: List[FIIDividendCreateSchema]
+
+
 class FIIDividendDeleteSchema(BaseModel):
     pk: int
 

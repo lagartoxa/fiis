@@ -23,7 +23,7 @@ from backend.db.repository.fii_dividend import FIIDividendRepository
 
 from backend.db.schema.api import APISchema
 from backend.db.schema.fii_dividend import (
-    FIIDividendCreateSchema,
+    FIIDividendCreateManySchema,
     FIIDividendDeleteSchema,
     FIIDividendSchema,
     FIIDividendsResponseSchema
@@ -94,55 +94,55 @@ async def get_all_dividends_from_fii(
 @router.post(
     "/fii_dividend/create", tags=tags, response_model=APISchema)
 async def create_fii_dividend(
-    request: FIIDividendCreateSchema, db_session: Session = Depends(db_session)):
-    fii_code = request.fii_code
-    base_date = request.base_date
-    payment_date = request.payment_date
+    request: FIIDividendCreateManySchema, db_session: Session = Depends(db_session)):
 
-    with FIIRepository(db_session) as repo:
-        fii_code = request.fii_code
-        fii = repo.one_or_none(code=fii_code)
+    with FIIRepository(db_session) as fii_repo:
+        with FIIDividendRepository(db_session) as dividend_repo:
+            for dividend in request.dividends:
+                fii_code = dividend.fii_code
+                base_date = dividend.base_date
+                payment_date = dividend.payment_date
 
-        if not fii:
-            raise HTTPException(
-                status_code=404,
-                detail=f"FII '{fii_code}' not found."
-            )
+                fii = fii_repo.one_or_none(code=fii_code)
 
-    with FIIDividendRepository(db_session) as repo:
-        if repo.one_or_none(fii_code=fii_code, base_date=base_date):
-            raise HTTPException(
-                status_code=409,
-                detail=
-                f"Dividend with base_date '{base_date}' for "
-                f"FII with code '{fii_code}' was already registered."
-            )
+                if not fii:
+                    raise HTTPException(
+                        status_code=404,
+                        detail=f"FII '{fii_code}' not found."
+                    )
 
-        if repo.one_or_none(
-                fii_code=fii_code, payment_date=payment_date):
+                if dividend_repo.one_or_none(fii_code=fii_code, base_date=base_date):
+                    raise HTTPException(
+                        status_code=409,
+                        detail=
+                        f"Dividend with base_date '{base_date}' for "
+                        f"FII with code '{fii_code}' was already registered."
+                    )
 
-            raise HTTPException(
-                status_code=409,
-                detail=
-                f"Dividend with payment_date '{payment_date}' for "
-                f"FII with code '{fii_code}' was already registered."
-            )
+                if dividend_repo.one_or_none(
+                        fii_code=fii_code, payment_date=payment_date):
 
-        fii_dividend = FIIDividend(
-            fii=fii,
-            base_date=base_date,
-            payment_date=payment_date,
-            base_quotation=request.base_quotation,
-            dividend_yield=request.dividend_yield,
-            value=request.value
-        )
+                    raise HTTPException(
+                        status_code=409,
+                        detail=
+                        f"Dividend with payment_date '{payment_date}' for "
+                        f"FII with code '{fii_code}' was already registered."
+                    )
 
-        repo.add(fii_dividend)
-        repo.commit()
+                fii_dividend = FIIDividend(
+                    fii=fii,
+                    base_date=base_date,
+                    payment_date=payment_date,
+                    base_quotation=dividend.base_quotation,
+                    dividend_yield=dividend.dividend_yield,
+                    value=dividend.value
+                )
+
+                dividend_repo.add(fii_dividend)
 
     return {
         "success": True,
-        "reason": f"Dividend for FII {fii.code} added successfully.",
+        "reason": f"Dividends added successfully.",
     }
 
 
