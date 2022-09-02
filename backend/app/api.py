@@ -13,7 +13,8 @@ from backend.app.routers import (
     fii_dividend,
     fii_quotation,
     fii_share,
-    fii_type
+    fii_type,
+    simulation
 )
 
 
@@ -23,6 +24,7 @@ app.include_router(fii_dividend.router)
 app.include_router(fii_quotation.router)
 app.include_router(fii_share.router)
 app.include_router(fii_type.router)
+app.include_router(simulation.router)
 
 
 @app.get('/')

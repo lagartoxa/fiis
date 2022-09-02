@@ -8,6 +8,7 @@
 
 from backend.db.models.fii import FII
 from backend.db.repository.base import BaseRepository
+from backend.db.repository.fii_share import FIIShareRepository
 
 
 class FIIRepository(BaseRepository):
@@ -31,4 +32,14 @@ class FIIRepository(BaseRepository):
             query = query.filter(self.model.code_international == code_international)
 
         return query
+
+    def get_share_quantity(self, fii_code: str):
+        with FIIShareRepository(self.db_session) as share_repo:
+            shares = share_repo.all(fii_code=fii_code)
+
+            count = 0
+            for share in shares:
+                count += share.quantity
+
+        return count
 
